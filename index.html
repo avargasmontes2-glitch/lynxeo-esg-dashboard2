@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lynxeo ESG Carbon Footprint Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            color: #718096;
+            font-size: 1.1em;
+        }
+
+        .header .company-info {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #e2e8f0;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-item .label {
+            color: #4a5568;
+            font-weight: 600;
+        }
+
+        .info-item .value {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .metric-card .metric-title {
+            color: #718096;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .metric-card .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .metric-card .metric-unit {
+            color: #a0aec0;
+            font-size: 0.9em;
+        }
+
+        .metric-card .metric-trend {
+            margin-top: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            display: inline-block;
+        }
+
+        .trend-positive {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .trend-negative {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .chart-card h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .recommendations {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .recommendations h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .recommendation-item {
+            background: #f7fafc;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .recommendation-item h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .recommendation-item p {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .impact-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .impact-high {
+            background: #48bb78;
+            color: white;
+        }
+
+        .impact-medium {
+            background: #ed8936;
+            color: white;
+        }
+
+        canvas {
+            max-height: 400px;
+        }
+
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 Lynxeo ESG Carbon Footprint Dashboard</h1>
+            <p class="subtitle">Comprehensive Carbon Emissions Analysis & Decarbonization Strategy</p>
+            <div class="company-info">
+                <div class="info-item">
+                    <span class="label">Revenue:</span>
+                    <span class="value">€800M</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Employees:</span>
+                    <span class="value">2,500</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Production Sites:</span>
+                    <span class="value">10+</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Reporting Year:</span>
+                    <span class="value">2024</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">Total GHG Emissions</div>
+                <div class="metric-value">156,400</div>
+                <div class="metric-unit">tCO₂e / year</div>
+                <div class="metric-trend trend-positive">↓ 8.2% vs 2023</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">Carbon Intensity</div>
+                <div class="metric-value">195.5</div>
+                <div class="metric-unit">tCO₂e / €M revenue</div>
+                <div class="metric-trend trend-positive">↓ 6.1% vs 2023</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">Emissions per Employee</div>
+                <div class="metric-value">62.6</div>
+                <div class="metric-unit">tCO₂e / FTE</div>
+                <div class="metric-trend trend-positive">↓ 7.8% vs 2023</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">2030 Target Progress</div>
+                <div class="metric-value">32%</div>
+                <div class="metric-unit">toward -42% reduction</div>
+                <div class="metric-trend trend-positive">On Track (SBTi aligned)</div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h2>📊 Emissions by Scope</h2>
+                <canvas id="scopeChart"></canvas>
+            </div>
+
+            <div class="chart-card">
+                <h2>📈 Emission Trends (2020-2024)</h2>
+                <canvas id="trendChart"></canvas>
+            </div>
+
+            <div class="chart-card full-width">
+                <h2>🎯 Decarbonization Pathway to 2050</h2>
+                <canvas id="pathwayChart"></canvas>
+            </div>
+
+            <div class="chart-card">
+                <h2>🏭 Scope 1 Breakdown</h2>
+                <canvas id="scope1Chart"></canvas>
+            </div>
+
+            <div class="chart-card">
+                <h2>⚡ Scope 2 - Energy Sources</h2>
+                <canvas id="scope2Chart"></canvas>
+            </div>
+
+            <div class="chart-card full-width">
+                <h2>🔗 Scope 3 Value Chain Emissions</h2>
+                <canvas id="scope3Chart"></canvas>
+            </div>
+        </div>
+
+        <div class="recommendations">
+            <h2>💡 Strategic Decarbonization Recommendations</h2>
+            
+            <div class="recommendation-item">
+                <h3>1. Renewable Energy Transition (Scope 2)</h3>
+                <p>Transition to 100% renewable electricity through PPAs and on-site solar installations. Priority focus on European production sites with highest energy consumption.</p>
+                <span class="impact-badge impact-high">High Impact: -28,200 tCO₂e/year</span>
+            </div>
+
+            <div class="recommendation-item">
+                <h3>2. Supplier Engagement Program (Scope 3 Upstream)</h3>
+                <p>Implement supplier decarbonization requirements, focusing on top 20 copper and aluminum suppliers representing 65% of purchased goods emissions. Require SBTi targets alignment.</p>
+                <span class="impact-badge impact-high">High Impact: -36,500 tCO₂e/year</span>
+            </div>
+
+            <div class="recommendation-item">
+                <h3>3. Process Optimization & Electrification (Scope 1)</h3>
+                <p>Replace natural gas heating systems with electric alternatives in extrusion and curing processes. Invest in heat recovery systems across manufacturing sites.</p>
+                <span class="impact-badge impact-medium">Medium Impact: -12,800 tCO₂e/year</span>
+            </div>
+
+            <div class="recommendation-item">
+                <h3>4. Circular Economy - Material Innovation</h3>
+                <p>Increase recycled content in cable production from current 15% to 40% by 2030. Develop take-back programs for end-of-life cables and implement closed-loop recycling.</p>
+                <span class="impact-badge impact-high">High Impact: -18,600 tCO₂e/year</span>
+            </div>
+
+            <div class="recommendation-item">
+                <h3>5. Fleet Electrification & Logistics Optimization</h3>
+                <p>Transition company fleet to electric vehicles and optimize logistics routes using AI-powered systems. Partner with low-carbon logistics providers.</p>
+                <span class="impact-badge impact-medium">Medium Impact: -8,400 tCO₂e/year</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Color palette
+        const colors = {
+            primary: '#667eea',
+            secondary: '#764ba2',
+            success: '#48bb78',
+            warning: '#ed8936',
+            danger: '#f56565',
+            scope1: '#e53e3e',
+            scope2: '#ed8936',
+            scope3: '#667eea'
+        };
+
+        // Scope Distribution Chart
+        const scopeCtx = document.getElementById('scopeChart').getContext('2d');
+        new Chart(scopeCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Scope 1 (Direct)', 'Scope 2 (Electricity)', 'Scope 3 (Value Chain)'],
+                datasets: [{
+                    data: [31800, 28200, 96400],
+                    backgroundColor: [colors.scope1, colors.scope2, colors.scope3],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            font: { size: 12 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.parsed.toLocaleString();
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                return `${label}: ${value} tCO₂e (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Trend Chart
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024'],
+                datasets: [{
+                    label: 'Total Emissions',
+                    data: [182500, 178200, 172800, 170400, 156400],
+                    borderColor: colors.primary,
+                    backgroundColor: colors.primary + '20',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.parsed.y.toLocaleString()} tCO₂e`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value) {
+                                return (value / 1000).toFixed(0) + 'k';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Pathway Chart
+        const pathwayCtx = document.getElementById('pathwayChart').getContext('2d');
+        new Chart(pathwayCtx, {
+            type: 'line',
+            data: {
+                labels: ['2024', '2026', '2028', '2030', '2035', '2040', '2045', '2050'],
+                datasets: [{
+                    label: 'Business as Usual',
+                    data: [156400, 158200, 160100, 162000, 165000, 168000, 170000, 172000],
+                    borderColor: colors.danger,
+                    borderDash: [5, 5],
+                    fill: false,
+                    tension: 0.4
+                }, {
+                    label: 'SBTi 1.5°C Pathway',
+                    data: [156400, 135600, 115800, 90700, 62500, 39200, 23500, 15600],
+                    borderColor: colors.success,
+                    backgroundColor: colors.success + '20',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 5
+                }, {
+                    label: 'Lynxeo Target',
+                    data: [156400, 132400, 112200, 90700, 65800, 43400, 27100, 18800],
+                    borderColor: colors.primary,
+                    backgroundColor: colors.primary + '15',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { padding: 20 }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.dataset.label}: ${context.parsed.y.toLocaleString()} tCO₂e`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return (value / 1000).toFixed(0) + 'k';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Scope 1 Breakdown
+        const scope1Ctx = document.getElementById('scope1Chart').getContext('2d');
+        new Chart(scope1Ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Natural Gas', 'Diesel (Fleet)', 'Process Emissions', 'Refrigerants'],
+                datasets: [{
+                    label: 'tCO₂e',
+                    data: [18900, 8200, 3800, 900],
+                    backgroundColor: [
+                        colors.scope1,
+                        colors.scope1 + 'CC',
+                        colors.scope1 + '99',
+                        colors.scope1 + '66'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return (value / 1000).toFixed(1) + 'k';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Scope 2 Chart
+        const scope2Ctx = document.getElementById('scope2Chart').getContext('2d');
+        new Chart(scope2Ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Grid Electricity (Standard)', 'Renewable Energy', 'Steam Purchase'],
+                datasets: [{
+                    data: [21500, 4200, 2500],
+                    backgroundColor: [
+                        colors.scope2,
+                        colors.success,
+                        colors.scope2 + '99'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 15 }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.parsed.toLocaleString();
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                return `${context.label}: ${value} tCO₂e (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Scope 3 Chart
+        const scope3Ctx = document.getElementById('scope3Chart').getContext('2d');
+        new Chart(scope3Ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Purchased Goods\n(Materials)',
+                    'Upstream\nTransportation',
+                    'Waste',
+                    'Business\nTravel',
+                    'Employee\nCommuting',
+                    'Downstream\nTransportation',
+                    'Use of Sold\nProducts',
+                    'End of Life'
+                ],
+                datasets: [{
+                    label: 'Upstream',
+                    data: [56200, 12800, 2100, 1800, 3200, 0, 0, 0],
+                    backgroundColor: colors.scope3
+                }, {
+                    label: 'Downstream',
+                    data: [0, 0, 0, 0, 0, 8600, 9400, 2300],
+                    backgroundColor: colors.secondary
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { padding: 20 }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.dataset.label}: ${context.parsed.y.toLocaleString()} tCO₂e`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        ticks: {
+                            font: { size: 10 }
+                        }
+                    },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return (value / 1000).toFixed(0) + 'k';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
