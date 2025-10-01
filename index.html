@@ -1,10 +1,12 @@
-           <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lynxeo ESG Carbon Footprint Dashboard</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -13,10 +15,11 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
             min-height: 100vh;
-            padding: 20px;
+            padding: 40px 20px;
+            color: #1a202c;
         }
 
         .container {
@@ -26,198 +29,233 @@
 
         .header {
             background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             margin-bottom: 30px;
         }
 
         .header h1 {
-            color: #2d3748;
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            color: #1a202c;
+            font-size: 2em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
         }
 
         .header .subtitle {
-            color: #718096;
-            font-size: 1.1em;
+            color: #64748b;
+            font-size: 1em;
+            font-weight: 400;
+        }
+
+        .export-btn {
+            background: #1e40af;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 0.95em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: inherit;
+        }
+
+        .export-btn:hover {
+            background: #1e3a8a;
+        }
+
+        .export-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
         }
 
         .header .company-info {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 2px solid #e2e8f0;
-            display: flex;
+            padding-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 30px;
-            flex-wrap: wrap;
         }
 
         .info-item {
             display: flex;
-            align-items: center;
-            gap: 8px;
+            flex-direction: column;
+            gap: 4px;
         }
 
         .info-item .label {
-            color: #4a5568;
-            font-weight: 600;
+            color: #64748b;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
         }
 
         .info-item .value {
-            color: #667eea;
-            font-weight: bold;
+            color: #1a202c;
+            font-weight: 600;
+            font-size: 1.25em;
         }
 
         .controls-panel {
             background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 40px;
             margin-bottom: 30px;
+            border: 1px solid #e2e8f0;
         }
 
         .controls-panel h2 {
-            color: #2d3748;
-            font-size: 1.8em;
-            margin-bottom: 20px;
+            color: #1a202c;
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            letter-spacing: -0.01em;
         }
 
         .controls-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            gap: 30px;
         }
 
         .control-group {
-            background: #f7fafc;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
+            background: #f8fafc;
+            padding: 24px;
+            border-left: 3px solid #1e40af;
         }
 
         .control-group label {
             display: block;
-            color: #2d3748;
-            font-weight: 600;
-            margin-bottom: 12px;
-            font-size: 1.05em;
+            color: #1a202c;
+            font-weight: 500;
+            margin-bottom: 16px;
+            font-size: 0.95em;
         }
 
-        .control-group select,
-        .control-group input[type="range"] {
+        .control-group select {
             width: 100%;
-            padding: 10px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 1em;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            font-size: 0.95em;
             background: white;
             cursor: pointer;
-            transition: border-color 0.3s;
+            transition: border-color 0.2s;
+            font-family: inherit;
+            color: #1a202c;
         }
 
         .control-group select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #1e40af;
         }
 
         .control-group input[type="range"] {
+            width: 100%;
             padding: 0;
-            height: 8px;
+            height: 6px;
             -webkit-appearance: none;
             appearance: none;
-            background: #e2e8f0;
+            background: #cbd5e1;
+            cursor: pointer;
         }
 
         .control-group input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #667eea;
+            width: 18px;
+            height: 18px;
+            background: #1e40af;
             cursor: pointer;
-            border-radius: 50%;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
 
         .control-group input[type="range"]::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            background: #667eea;
+            width: 18px;
+            height: 18px;
+            background: #1e40af;
             cursor: pointer;
-            border-radius: 50%;
-            border: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
 
         .slider-value {
             display: flex;
             justify-content: space-between;
-            margin-top: 8px;
-            color: #4a5568;
-            font-size: 0.9em;
+            margin-top: 12px;
+            color: #64748b;
+            font-size: 0.85em;
         }
 
         .slider-value .current {
-            font-weight: bold;
-            color: #667eea;
+            font-weight: 600;
+            color: #1e40af;
             font-size: 1.1em;
         }
 
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            gap: 24px;
             margin-bottom: 30px;
         }
 
         .metric-card {
             background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease;
+            padding: 30px;
+            border: 1px solid #e2e8f0;
+            transition: box-shadow 0.2s;
         }
 
         .metric-card:hover {
-            transform: translateY(-5px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
         .metric-card .metric-title {
-            color: #718096;
-            font-size: 0.9em;
+            color: #64748b;
+            font-size: 0.85em;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            font-weight: 500;
         }
 
         .metric-card .metric-value {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #2d3748;
-            margin-bottom: 5px;
+            font-size: 2.25em;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
         }
 
         .metric-card .metric-unit {
-            color: #a0aec0;
+            color: #94a3b8;
             font-size: 0.9em;
         }
 
         .metric-card .metric-trend {
-            margin-top: 10px;
-            padding: 8px 12px;
-            border-radius: 8px;
+            margin-top: 12px;
+            padding: 6px 12px;
             font-size: 0.85em;
             display: inline-block;
+            font-weight: 500;
         }
 
         .trend-positive {
-            background: #c6f6d5;
-            color: #22543d;
+            background: #dcfce7;
+            color: #166534;
         }
 
         .trend-negative {
-            background: #fed7d7;
-            color: #742a2a;
+            background: #fee2e2;
+            color: #991b1b;
         }
 
         .charts-grid {
@@ -229,15 +267,16 @@
 
         .chart-card {
             background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 40px;
+            border: 1px solid #e2e8f0;
         }
 
         .chart-card h2 {
-            color: #2d3748;
-            margin-bottom: 20px;
-            font-size: 1.5em;
+            color: #1a202c;
+            margin-bottom: 24px;
+            font-size: 1.25em;
+            font-weight: 600;
+            letter-spacing: -0.01em;
         }
 
         .full-width {
@@ -246,56 +285,102 @@
 
         .recommendations {
             background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 40px;
+            border: 1px solid #e2e8f0;
         }
 
         .recommendations h2 {
-            color: #2d3748;
-            margin-bottom: 20px;
-            font-size: 1.8em;
+            color: #1a202c;
+            margin-bottom: 24px;
+            font-size: 1.5em;
+            font-weight: 600;
+            letter-spacing: -0.01em;
         }
 
         .recommendation-item {
-            background: #f7fafc;
-            padding: 20px;
-            border-left: 4px solid #667eea;
-            margin-bottom: 15px;
-            border-radius: 8px;
+            background: #f8fafc;
+            padding: 24px;
+            border-left: 3px solid #1e40af;
+            margin-bottom: 16px;
         }
 
         .recommendation-item h3 {
-            color: #2d3748;
-            margin-bottom: 10px;
+            color: #1a202c;
+            margin-bottom: 12px;
+            font-weight: 600;
+            font-size: 1.05em;
         }
 
         .recommendation-item p {
-            color: #4a5568;
+            color: #475569;
             line-height: 1.6;
+            font-size: 0.95em;
         }
 
         .impact-badge {
             display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
+            padding: 6px 14px;
             font-size: 0.8em;
-            font-weight: bold;
-            margin-top: 10px;
+            font-weight: 500;
+            margin-top: 12px;
         }
 
         .impact-high {
-            background: #48bb78;
-            color: white;
+            background: #dcfce7;
+            color: #166534;
         }
 
         .impact-medium {
-            background: #ed8936;
-            color: white;
+            background: #fef3c7;
+            color: #92400e;
         }
 
         canvas {
             max-height: 400px;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-content {
+            background: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .loading-content p {
+            color: #1a202c;
+            font-weight: 500;
+            margin-top: 15px;
+        }
+
+        .spinner {
+            border: 3px solid #e2e8f0;
+            border-top: 3px solid #1e40af;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @media (max-width: 768px) {
@@ -304,38 +389,66 @@
             }
             
             .header h1 {
-                font-size: 1.8em;
+                font-size: 1.5em;
+            }
+
+            .header-top {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .export-btn {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Generating PDF Report...</p>
+        </div>
+    </div>
+
+    <div class="container" id="dashboardContent">
         <div class="header">
-            <h1>🌍 Lynxeo ESG Carbon Footprint Dashboard</h1>
-            <p class="subtitle">Interactive Carbon Emissions Analysis & Scenario Planning</p>
+            <div class="header-top">
+                <div>
+                    <h1>Lynxeo ESG Carbon Footprint Dashboard</h1>
+                    <p class="subtitle">Interactive Carbon Emissions Analysis & Scenario Planning</p>
+                </div>
+                <button class="export-btn" id="exportPDF">Export Scenario to PDF</button>
+            </div>
             <div class="company-info">
                 <div class="info-item">
-                    <span class="label">Revenue:</span>
+                    <span class="label">Revenue</span>
                     <span class="value">€800M</span>
                 </div>
                 <div class="info-item">
-                    <span class="label">Employees:</span>
+                    <span class="label">Employees</span>
                     <span class="value">2,500</span>
                 </div>
                 <div class="info-item">
-                    <span class="label">Production Sites:</span>
+                    <span class="label">Production Sites</span>
                     <span class="value">10+</span>
                 </div>
                 <div class="info-item">
-                    <span class="label">Reporting Year:</span>
+                    <span class="label">Reporting Year</span>
                     <span class="value">2024</span>
                 </div>
             </div>
         </div>
 
         <div class="controls-panel">
-            <h2>⚙️ Scenario Planning Controls</h2>
+            <h2>Scenario Planning Controls</h2>
             <div class="controls-grid">
                 <div class="control-group">
                     <label for="targetYear">Target Year</label>
@@ -431,28 +544,28 @@
 
         <div class="charts-grid">
             <div class="chart-card">
-                <h2>📊 Emissions by Scope (Current)</h2>
+                <h2>Emissions by Scope (Current)</h2>
                 <canvas id="scopeChart"></canvas>
             </div>
 
             <div class="chart-card">
-                <h2>🎯 Emission Reduction by Initiative</h2>
+                <h2>Emission Reduction by Initiative</h2>
                 <canvas id="reductionChart"></canvas>
             </div>
 
             <div class="chart-card full-width">
-                <h2>📈 Decarbonization Pathway - Your Scenario</h2>
+                <h2>Decarbonization Pathway - Your Scenario</h2>
                 <canvas id="pathwayChart"></canvas>
             </div>
 
             <div class="chart-card full-width">
-                <h2>⚡ Energy Mix Transition</h2>
+                <h2>Energy Mix Transition</h2>
                 <canvas id="energyMixChart"></canvas>
             </div>
         </div>
 
         <div class="recommendations">
-            <h2>💡 Strategic Decarbonization Recommendations</h2>
+            <h2>Strategic Decarbonization Recommendations</h2>
             
             <div class="recommendation-item">
                 <h3>1. Renewable Energy Transition (Scope 2)</h3>
@@ -487,16 +600,17 @@
     </div>
 
     <script>
-        // Color palette
+        // Color palette - Professional and discrete
         const colors = {
-            primary: '#667eea',
-            secondary: '#764ba2',
-            success: '#48bb78',
-            warning: '#ed8936',
-            danger: '#f56565',
-            scope1: '#e53e3e',
-            scope2: '#ed8936',
-            scope3: '#667eea'
+            primary: '#1e40af',
+            secondary: '#475569',
+            success: '#059669',
+            warning: '#d97706',
+            danger: '#dc2626',
+            scope1: '#dc2626',
+            scope2: '#d97706',
+            scope3: '#1e40af',
+            neutral: '#64748b'
         };
 
         // Baseline emissions
@@ -521,7 +635,8 @@
                     datasets: [{
                         data: [31800, 28200, 96400],
                         backgroundColor: [colors.scope1, colors.scope2, colors.scope3],
-                        borderWidth: 0
+                        borderWidth: 2,
+                        borderColor: 'white'
                     }]
                 },
                 options: {
@@ -532,7 +647,8 @@
                             position: 'bottom',
                             labels: {
                                 padding: 20,
-                                font: { size: 12 }
+                                font: { size: 12, family: "'Inter', sans-serif" },
+                                color: '#1a202c'
                             }
                         },
                         tooltip: {
@@ -559,7 +675,8 @@
                     datasets: [{
                         label: 'Emission Reduction (tCO₂e)',
                         data: [14100, 14600, 6400, 5580, 5040],
-                        backgroundColor: [colors.success, colors.primary, colors.warning, colors.secondary, colors.scope2]
+                        backgroundColor: colors.primary,
+                        borderWidth: 0
                     }]
                 },
                 options: {
@@ -582,7 +699,21 @@
                             ticks: {
                                 callback: function(value) {
                                     return (value / 1000).toFixed(0) + 'k';
-                                }
+                                },
+                                color: '#64748b',
+                                font: { family: "'Inter', sans-serif" }
+                            },
+                            grid: {
+                                color: '#f1f5f9'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: '#1a202c',
+                                font: { family: "'Inter', sans-serif" }
+                            },
+                            grid: {
+                                display: false
                             }
                         }
                     }
@@ -598,18 +729,21 @@
                     datasets: [{
                         label: 'Business as Usual',
                         data: [156400, 158200, 160100, 162000, 165000, 168000, 170000, 172000],
-                        borderColor: colors.danger,
+                        borderColor: colors.neutral,
                         borderDash: [5, 5],
                         fill: false,
-                        tension: 0.4
+                        tension: 0.4,
+                        borderWidth: 2,
+                        pointRadius: 0
                     }, {
                         label: 'SBTi 1.5°C Pathway',
                         data: [156400, 135600, 115800, 90700, 62500, 39200, 23500, 15600],
                         borderColor: colors.success,
-                        backgroundColor: colors.success + '20',
+                        backgroundColor: colors.success + '15',
                         fill: true,
                         tension: 0.4,
-                        pointRadius: 5
+                        pointRadius: 4,
+                        borderWidth: 2
                     }, {
                         label: 'Your Scenario',
                         data: [156400, 132400, 112200, 90700, 65800, 43400, 27100, 18800],
@@ -617,7 +751,7 @@
                         backgroundColor: colors.primary + '15',
                         fill: true,
                         tension: 0.4,
-                        pointRadius: 6,
+                        pointRadius: 5,
                         pointBackgroundColor: colors.primary,
                         borderWidth: 3
                     }]
@@ -632,7 +766,11 @@
                     plugins: {
                         legend: {
                             position: 'top',
-                            labels: { padding: 20 }
+                            labels: { 
+                                padding: 20,
+                                color: '#1a202c',
+                                font: { family: "'Inter', sans-serif" }
+                            }
                         },
                         tooltip: {
                             callbacks: {
@@ -648,7 +786,21 @@
                             ticks: {
                                 callback: function(value) {
                                     return (value / 1000).toFixed(0) + 'k';
-                                }
+                                },
+                                color: '#64748b',
+                                font: { family: "'Inter', sans-serif" }
+                            },
+                            grid: {
+                                color: '#f1f5f9'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#64748b',
+                                font: { family: "'Inter', sans-serif" }
+                            },
+                            grid: {
+                                color: '#f1f5f9'
                             }
                         }
                     }
@@ -664,7 +816,7 @@
                     datasets: [{
                         label: 'Fossil Fuels',
                         data: [85, 60, 25, 5],
-                        backgroundColor: colors.danger
+                        backgroundColor: colors.secondary
                     }, {
                         label: 'Renewable Energy',
                         data: [15, 40, 75, 95],
@@ -677,7 +829,11 @@
                     plugins: {
                         legend: {
                             position: 'top',
-                            labels: { padding: 20 }
+                            labels: { 
+                                padding: 20,
+                                color: '#1a202c',
+                                font: { family: "'Inter', sans-serif" }
+                            }
                         },
                         tooltip: {
                             callbacks: {
@@ -688,7 +844,16 @@
                         }
                     },
                     scales: {
-                        x: { stacked: true },
+                        x: { 
+                            stacked: true,
+                            ticks: {
+                                color: '#64748b',
+                                font: { family: "'Inter', sans-serif" }
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
                         y: {
                             stacked: true,
                             beginAtZero: true,
@@ -696,7 +861,12 @@
                             ticks: {
                                 callback: function(value) {
                                     return value + '%';
-                                }
+                                },
+                                color: '#64748b',
+                                font: { family: "'Inter', sans-serif" }
+                            },
+                            grid: {
+                                color: '#f1f5f9'
                             }
                         }
                     }
@@ -772,6 +942,206 @@
             energyMixChart.update();
         }
 
+        // Export to PDF function
+        async function exportToPDF() {
+            const exportBtn = document.getElementById('exportPDF');
+            const overlay = document.getElementById('loadingOverlay');
+            
+            exportBtn.disabled = true;
+            overlay.classList.add('active');
+
+            try {
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                const margin = 15;
+                let yPosition = margin;
+
+                // Helper function to add text
+                function addText(text, size, isBold = false, x = margin) {
+                    pdf.setFontSize(size);
+                    pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
+                    pdf.text(text, x, yPosition);
+                    yPosition += size * 0.5;
+                }
+
+                // Page 1 - Header and Metrics
+                pdf.setFillColor(30, 64, 175);
+                pdf.rect(0, 0, pageWidth, 40, 'F');
+                
+                pdf.setTextColor(255, 255, 255);
+                pdf.setFontSize(20);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text('Lynxeo ESG Carbon Footprint', margin, 20);
+                pdf.setFontSize(12);
+                pdf.setFont('helvetica', 'normal');
+                pdf.text('Decarbonization Scenario Report', margin, 28);
+                pdf.text('Generated: ' + new Date().toLocaleDateString(), margin, 34);
+
+                pdf.setTextColor(0, 0, 0);
+                yPosition = 50;
+
+                // Company Info
+                addText('Company Information', 14, true);
+                yPosition += 3;
+                addText(`Revenue: €800M  |  Employees: 2,500  |  Production Sites: 10+  |  Year: 2024`, 10);
+                yPosition += 8;
+
+                // Current Scenario Settings
+                addText('Scenario Parameters', 14, true);
+                yPosition += 3;
+                const renewable = document.getElementById('renewableEnergy').value;
+                const circular = document.getElementById('circularMaterials').value;
+                const supplier = document.getElementById('supplierEngagement').value;
+                const electrification = document.getElementById('electrification').value;
+                const fleet = document.getElementById('fleetTransition').value;
+                const targetYear = document.getElementById('targetYear').value;
+
+                addText(`Target Year: ${targetYear}`, 10);
+                addText(`Renewable Energy Adoption: ${renewable}%`, 10);
+                addText(`Recycled Material Content: ${circular}%`, 10);
+                addText(`Supplier Decarbonization: ${supplier}%`, 10);
+                addText(`Process Electrification: ${electrification}%`, 10);
+                addText(`Fleet Electrification: ${fleet}%`, 10);
+                yPosition += 8;
+
+                // Key Metrics
+                addText('Key Performance Indicators', 14, true);
+                yPosition += 3;
+                
+                const projectedEmissions = document.getElementById('projectedEmissions').textContent;
+                const projectedReduction = document.getElementById('projectedReduction').textContent;
+                const projectedIntensity = document.getElementById('projectedIntensity').textContent;
+                const targetAlignment = document.getElementById('targetAlignment').textContent;
+
+                pdf.setFillColor(248, 250, 252);
+                pdf.rect(margin, yPosition - 3, pageWidth - 2 * margin, 35, 'F');
+                
+                addText(`Current Total Emissions: 156,400 tCO₂e/year`, 10);
+                addText(`Projected Emissions: ${projectedEmissions} tCO₂e/year`, 10);
+                addText(`Emission Reduction: ${projectedReduction}`, 10);
+                addText(`Carbon Intensity (Projected): ${projectedIntensity} tCO₂e/€M`, 10);
+                addText(`SBTi 1.5°C Pathway Alignment: ${targetAlignment}`, 10);
+                yPosition += 10;
+
+                // Capture and add charts
+                const charts = ['scopeChart', 'reductionChart'];
+                
+                for (let i = 0; i < charts.length; i++) {
+                    if (yPosition > pageHeight - 70) {
+                        pdf.addPage();
+                        yPosition = margin;
+                    }
+
+                    const canvas = document.getElementById(charts[i]);
+                    const imgData = canvas.toDataURL('image/png');
+                    const imgWidth = pageWidth - 2 * margin;
+                    const imgHeight = (canvas.height / canvas.width) * imgWidth;
+
+                    pdf.addImage(imgData, 'PNG', margin, yPosition, imgWidth, imgHeight);
+                    yPosition += imgHeight + 10;
+                }
+
+                // Page 2 - Pathway and Energy Mix
+                pdf.addPage();
+                yPosition = margin;
+
+                addText('Decarbonization Pathway Analysis', 14, true);
+                yPosition += 5;
+
+                const pathwayCanvas = document.getElementById('pathwayChart');
+                const pathwayImg = pathwayCanvas.toDataURL('image/png');
+                const pathwayWidth = pageWidth - 2 * margin;
+                const pathwayHeight = (pathwayCanvas.height / pathwayCanvas.width) * pathwayWidth;
+                pdf.addImage(pathwayImg, 'PNG', margin, yPosition, pathwayWidth, pathwayHeight);
+                yPosition += pathwayHeight + 15;
+
+                addText('Energy Mix Transition', 14, true);
+                yPosition += 5;
+
+                const energyCanvas = document.getElementById('energyMixChart');
+                const energyImg = energyCanvas.toDataURL('image/png');
+                const energyWidth = pageWidth - 2 * margin;
+                const energyHeight = (energyCanvas.height / energyCanvas.width) * energyWidth;
+                pdf.addImage(energyImg, 'PNG', margin, yPosition, energyWidth, energyHeight);
+
+                // Page 3 - Recommendations
+                pdf.addPage();
+                yPosition = margin;
+
+                addText('Strategic Decarbonization Recommendations', 14, true);
+                yPosition += 8;
+
+                const recommendations = [
+                    {
+                        title: '1. Renewable Energy Transition',
+                        desc: 'Transition to 100% renewable electricity through PPAs and on-site solar. Priority on European production sites.',
+                        impact: 'High Impact: -28,200 tCO₂e/year'
+                    },
+                    {
+                        title: '2. Supplier Engagement Program',
+                        desc: 'Implement supplier decarbonization requirements for top 20 suppliers. Require SBTi targets alignment.',
+                        impact: 'High Impact: -36,500 tCO₂e/year'
+                    },
+                    {
+                        title: '3. Process Optimization & Electrification',
+                        desc: 'Replace natural gas heating with electric alternatives. Invest in heat recovery systems.',
+                        impact: 'Medium Impact: -12,800 tCO₂e/year'
+                    },
+                    {
+                        title: '4. Circular Economy - Material Innovation',
+                        desc: 'Increase recycled content to 40% by 2030. Develop take-back programs for end-of-life cables.',
+                        impact: 'High Impact: -18,600 tCO₂e/year'
+                    },
+                    {
+                        title: '5. Fleet Electrification & Logistics',
+                        desc: 'Transition fleet to EVs and optimize routes using AI. Partner with low-carbon logistics providers.',
+                        impact: 'Medium Impact: -8,400 tCO₂e/year'
+                    }
+                ];
+
+                recommendations.forEach((rec, index) => {
+                    if (yPosition > pageHeight - 40) {
+                        pdf.addPage();
+                        yPosition = margin;
+                    }
+
+                    pdf.setFillColor(248, 250, 252);
+                    pdf.rect(margin, yPosition - 3, pageWidth - 2 * margin, 28, 'F');
+                    pdf.setDrawColor(30, 64, 175);
+                    pdf.setLineWidth(0.5);
+                    pdf.line(margin, yPosition - 3, margin, yPosition + 25);
+
+                    addText(rec.title, 11, true, margin + 3);
+                    pdf.setFontSize(9);
+                    const descLines = pdf.splitTextToSize(rec.desc, pageWidth - 2 * margin - 6);
+                    pdf.text(descLines, margin + 3, yPosition);
+                    yPosition += descLines.length * 4;
+                    pdf.setFont('helvetica', 'bold');
+                    pdf.text(rec.impact, margin + 3, yPosition);
+                    yPosition += 12;
+                    pdf.setFont('helvetica', 'normal');
+                });
+
+                // Footer on last page
+                pdf.setFontSize(8);
+                pdf.setTextColor(100, 116, 139);
+                pdf.text('Report generated by Lynxeo ESG Dashboard', margin, pageHeight - 10);
+                pdf.text(`© ${new Date().getFullYear()} Lynxeo - Confidential`, pageWidth - margin - 50, pageHeight - 10);
+
+                // Save PDF
+                pdf.save(`Lynxeo_ESG_Scenario_${targetYear}_${new Date().toISOString().split('T')[0]}.pdf`);
+
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                alert('Error generating PDF. Please try again.');
+            } finally {
+                exportBtn.disabled = false;
+                overlay.classList.remove('active');
+            }
+        }
+
         // Event listeners for controls
         document.getElementById('renewableEnergy').addEventListener('input', function(e) {
             document.getElementById('renewableValue').textContent = e.target.value + '%';
@@ -799,6 +1169,8 @@
         });
 
         document.getElementById('targetYear').addEventListener('change', calculateScenario);
+
+        document.getElementById('exportPDF').addEventListener('click', exportToPDF);
 
         // Initialize on load
         window.addEventListener('load', function() {
