@@ -199,6 +199,178 @@
             color: white;
         }
 
+        .scenario-controls {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .scenario-controls h2 {
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 1.8em;
+        }
+
+        .controls-subtitle {
+            color: #718096;
+            margin-bottom: 25px;
+            font-size: 0.95em;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .control-group {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .control-group:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .control-group label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .control-label {
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .control-value {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #e2e8f0;
+            outline: none;
+            -webkit-appearance: none;
+            margin-bottom: 8px;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            background: #5568d3;
+            transform: scale(1.2);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .slider::-moz-range-thumb:hover {
+            background: #5568d3;
+            transform: scale(1.2);
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75em;
+            color: #a0aec0;
+        }
+
+        .preset-scenarios {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .preset-btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        .preset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .preset-btn:active {
+            transform: translateY(0);
+        }
+
+        .impact-summary {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .impact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .impact-label {
+            color: #4a5568;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .impact-value {
+            color: #2d3748;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .impact-value.reduction {
+            color: #48bb78;
+        }
+
         canvas {
             max-height: 400px;
         }
@@ -235,6 +407,83 @@
                 <div class="info-item">
                     <span class="label">Reporting Year:</span>
                     <span class="value">2024</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="scenario-controls">
+            <h2>🎛️ Scenario Builder - Explore Decarbonization Pathways</h2>
+            <p class="controls-subtitle">Adjust parameters to simulate different emission reduction scenarios</p>
+            
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label for="renewableSlider">
+                        <span class="control-label">Renewable Energy Adoption</span>
+                        <span class="control-value" id="renewableValue">15%</span>
+                    </label>
+                    <input type="range" id="renewableSlider" min="0" max="100" value="15" class="slider">
+                    <div class="slider-labels">
+                        <span>0%</span>
+                        <span>50%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="electrificationSlider">
+                        <span class="control-label">Process Electrification</span>
+                        <span class="control-value" id="electrificationValue">20%</span>
+                    </label>
+                    <input type="range" id="electrificationSlider" min="0" max="100" value="20" class="slider">
+                    <div class="slider-labels">
+                        <span>0%</span>
+                        <span>50%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="circularitySlider">
+                        <span class="control-label">Recycled Material Content</span>
+                        <span class="control-value" id="circularityValue">15%</span>
+                    </label>
+                    <input type="range" id="circularitySlider" min="0" max="60" value="15" class="slider">
+                    <div class="slider-labels">
+                        <span>0%</span>
+                        <span>30%</span>
+                        <span>60%</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="supplierSlider">
+                        <span class="control-label">Supplier Engagement (%)</span>
+                        <span class="control-value" id="supplierValue">10%</span>
+                    </label>
+                    <input type="range" id="supplierSlider" min="0" max="100" value="10" class="slider">
+                    <div class="slider-labels">
+                        <span>0%</span>
+                        <span>50%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preset-scenarios">
+                <button class="preset-btn" onclick="applyPreset('baseline')">📊 Current Baseline</button>
+                <button class="preset-btn" onclick="applyPreset('conservative')">🎯 Conservative (2030)</button>
+                <button class="preset-btn" onclick="applyPreset('ambitious')">🚀 Ambitious (2030)</button>
+                <button class="preset-btn" onclick="applyPreset('netzero')">🌱 Net Zero (2050)</button>
+            </div>
+
+            <div class="impact-summary">
+                <div class="impact-item">
+                    <span class="impact-label">Projected Total Emissions:</span>
+                    <span class="impact-value" id="projectedEmissions">156,400 tCO₂e</span>
+                </div>
+                <div class="impact-item">
+                    <span class="impact-label">Total Reduction:</span>
+                    <span class="impact-value reduction" id="totalReduction">0 tCO₂e (0%)</span>
                 </div>
             </div>
         </div>
@@ -349,9 +598,150 @@
             scope3: '#667eea'
         };
 
-        // Scope Distribution Chart
-        const scopeCtx = document.getElementById('scopeChart').getContext('2d');
-        new Chart(scopeCtx, {
+        // Baseline emissions data
+        const baseline = {
+            scope1: 31800,
+            scope2: 28200,
+            scope3: 96400,
+            total: 156400
+        };
+
+        // Store chart instances
+        let charts = {};
+
+        // Initialize scenario controls
+        function initControls() {
+            const sliders = {
+                renewable: document.getElementById('renewableSlider'),
+                electrification: document.getElementById('electrificationSlider'),
+                circularity: document.getElementById('circularitySlider'),
+                supplier: document.getElementById('supplierSlider')
+            };
+
+            Object.keys(sliders).forEach(key => {
+                sliders[key].addEventListener('input', function() {
+                    updateScenario();
+                });
+            });
+
+            updateScenario();
+        }
+
+        // Apply preset scenarios
+        function applyPreset(preset) {
+            const presets = {
+                baseline: { renewable: 15, electrification: 20, circularity: 15, supplier: 10 },
+                conservative: { renewable: 40, electrification: 35, circularity: 25, supplier: 30 },
+                ambitious: { renewable: 75, electrification: 60, circularity: 40, supplier: 60 },
+                netzero: { renewable: 100, electrification: 90, circularity: 55, supplier: 85 }
+            };
+
+            const values = presets[preset];
+            document.getElementById('renewableSlider').value = values.renewable;
+            document.getElementById('electrificationSlider').value = values.electrification;
+            document.getElementById('circularitySlider').value = values.circularity;
+            document.getElementById('supplierSlider').value = values.supplier;
+
+            updateScenario();
+        }
+
+        // Calculate emissions based on scenario
+        function calculateScenario() {
+            const renewable = parseInt(document.getElementById('renewableSlider').value);
+            const electrification = parseInt(document.getElementById('electrificationSlider').value);
+            const circularity = parseInt(document.getElementById('circularitySlider').value);
+            const supplier = parseInt(document.getElementById('supplierSlider').value);
+
+            // Update display values
+            document.getElementById('renewableValue').textContent = renewable + '%';
+            document.getElementById('electrificationValue').textContent = electrification + '%';
+            document.getElementById('circularityValue').textContent = circularity + '%';
+            document.getElementById('supplierValue').textContent = supplier + '%';
+
+            // Calculate reductions
+            const scope2Reduction = baseline.scope2 * (renewable / 100) * 0.95; // 95% reduction from renewables
+            const scope1Reduction = baseline.scope1 * (electrification / 100) * 0.60; // 60% of scope 1 can be electrified
+            const scope3MaterialReduction = (baseline.scope3 * 0.58) * (circularity / 100) * 0.40; // Materials are 58% of scope 3
+            const scope3SupplierReduction = (baseline.scope3 * 0.58) * (supplier / 100) * 0.35; // Supplier engagement
+
+            const newScope1 = baseline.scope1 - scope1Reduction;
+            const newScope2 = baseline.scope2 - scope2Reduction;
+            const newScope3 = baseline.scope3 - scope3MaterialReduction - scope3SupplierReduction;
+            const newTotal = newScope1 + newScope2 + newScope3;
+            const totalReduction = baseline.total - newTotal;
+            const reductionPercent = (totalReduction / baseline.total * 100).toFixed(1);
+
+            // Update summary
+            document.getElementById('projectedEmissions').textContent = 
+                newTotal.toLocaleString('en-US', { maximumFractionDigits: 0 }) + ' tCO₂e';
+            document.getElementById('totalReduction').textContent = 
+                totalReduction.toLocaleString('en-US', { maximumFractionDigits: 0 }) + 
+                ` tCO₂e (${reductionPercent}%)`;
+
+            return {
+                scope1: Math.round(newScope1),
+                scope2: Math.round(newScope2),
+                scope3: Math.round(newScope3),
+                total: Math.round(newTotal),
+                reduction: Math.round(totalReduction),
+                reductionPercent: parseFloat(reductionPercent)
+            };
+        }
+
+        // Update all charts with new scenario
+        function updateScenario() {
+            const scenario = calculateScenario();
+            
+            // Update scope chart
+            charts.scope.data.datasets[0].data = [scenario.scope1, scenario.scope2, scenario.scope3];
+            charts.scope.update();
+
+            // Update pathway chart with new projection
+            const currentYear = 2024;
+            const targetYear = 2030;
+            const yearsToTarget = targetYear - currentYear;
+            const annualReduction = (baseline.total - scenario.total) / yearsToTarget;
+            
+            const lynxeoProjection = [
+                baseline.total,
+                baseline.total - annualReduction,
+                baseline.total - annualReduction * 2,
+                scenario.total,
+                scenario.total * 0.72,
+                scenario.total * 0.48,
+                scenario.total * 0.29,
+                scenario.total * 0.18
+            ];
+
+            charts.pathway.data.datasets[2].data = lynxeoProjection;
+            charts.pathway.update();
+
+            // Update metric cards
+            document.querySelector('.metric-card:nth-child(1) .metric-value').textContent = 
+                scenario.total.toLocaleString('en-US');
+            document.querySelector('.metric-card:nth-child(2) .metric-value').textContent = 
+                (scenario.total / 800).toFixed(1);
+            document.querySelector('.metric-card:nth-child(3) .metric-value').textContent = 
+                (scenario.total / 2500).toFixed(1);
+            
+            const progressPercent = Math.min(100, (scenario.reductionPercent / 42 * 100).toFixed(0));
+            document.querySelector('.metric-card:nth-child(4) .metric-value').textContent = progressPercent + '%';
+            
+            const trendElement = document.querySelector('.metric-card:nth-child(1) .metric-trend');
+            if (scenario.reduction > 0) {
+                trendElement.className = 'metric-trend trend-positive';
+                trendElement.textContent = `↓ ${scenario.reductionPercent}% vs baseline`;
+            } else {
+                trendElement.className = 'metric-trend trend-negative';
+                trendElement.textContent = 'Baseline scenario';
+            }
+        }
+
+        // Initialize all charts
+        function initCharts() {
+            // Scope Distribution Chart
+            const scopeCtx = document.getElementById('scopeChart').getContext('2d');
+            charts.scope = new Chart(scopeCtx, {
             type: 'doughnut',
             data: {
                 labels: ['Scope 1 (Direct)', 'Scope 2 (Electricity)', 'Scope 3 (Value Chain)'],
@@ -428,11 +818,11 @@
                     }
                 }
             }
-        });
+                    });
 
-        // Pathway Chart
-        const pathwayCtx = document.getElementById('pathwayChart').getContext('2d');
-        new Chart(pathwayCtx, {
+            // Pathway Chart
+            const pathwayCtx = document.getElementById('pathwayChart').getContext('2d');
+            charts.pathway = new Chart(pathwayCtx, {
             type: 'line',
             data: {
                 labels: ['2024', '2026', '2028', '2030', '2035', '2040', '2045', '2050'],
@@ -626,6 +1016,13 @@
                     }
                 }
             }
+        });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initCharts();
+            initControls();
         });
     </script>
 </body>
