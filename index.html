@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+           <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -66,6 +66,101 @@
         .info-item .value {
             color: #667eea;
             font-weight: bold;
+        }
+
+        .controls-panel {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .controls-panel h2 {
+            color: #2d3748;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .control-group {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .control-group label {
+            display: block;
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 1.05em;
+        }
+
+        .control-group select,
+        .control-group input[type="range"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .control-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .control-group input[type="range"] {
+            padding: 0;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #e2e8f0;
+        }
+
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .control-group input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            cursor: pointer;
+            border-radius: 50%;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .slider-value {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            color: #4a5568;
+            font-size: 0.9em;
+        }
+
+        .slider-value .current {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
         }
 
         .metrics-grid {
@@ -199,178 +294,6 @@
             color: white;
         }
 
-        .scenario-controls {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-bottom: 30px;
-        }
-
-        .scenario-controls h2 {
-            color: #2d3748;
-            margin-bottom: 8px;
-            font-size: 1.8em;
-        }
-
-        .controls-subtitle {
-            color: #718096;
-            margin-bottom: 25px;
-            font-size: 0.95em;
-        }
-
-        .controls-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 25px;
-        }
-
-        .control-group {
-            background: #f7fafc;
-            padding: 20px;
-            border-radius: 12px;
-            border: 2px solid #e2e8f0;
-            transition: all 0.3s ease;
-        }
-
-        .control-group:hover {
-            border-color: #667eea;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-        }
-
-        .control-group label {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .control-label {
-            color: #2d3748;
-            font-weight: 600;
-            font-size: 0.95em;
-        }
-
-        .control-value {
-            color: #667eea;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
-        .slider {
-            width: 100%;
-            height: 8px;
-            border-radius: 5px;
-            background: #e2e8f0;
-            outline: none;
-            -webkit-appearance: none;
-            margin-bottom: 8px;
-        }
-
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: #667eea;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .slider::-webkit-slider-thumb:hover {
-            background: #5568d3;
-            transform: scale(1.2);
-        }
-
-        .slider::-moz-range-thumb {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            background: #667eea;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s ease;
-        }
-
-        .slider::-moz-range-thumb:hover {
-            background: #5568d3;
-            transform: scale(1.2);
-        }
-
-        .slider-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75em;
-            color: #a0aec0;
-        }
-
-        .preset-scenarios {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 25px;
-            padding-top: 20px;
-            border-top: 2px solid #e2e8f0;
-        }
-
-        .preset-btn {
-            flex: 1;
-            min-width: 200px;
-            padding: 14px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.95em;
-        }
-
-        .preset-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .preset-btn:active {
-            transform: translateY(0);
-        }
-
-        .impact-summary {
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-            padding: 20px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-around;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .impact-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .impact-label {
-            color: #4a5568;
-            font-size: 0.9em;
-            font-weight: 500;
-        }
-
-        .impact-value {
-            color: #2d3748;
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-
-        .impact-value.reduction {
-            color: #48bb78;
-        }
-
         canvas {
             max-height: 400px;
         }
@@ -390,7 +313,7 @@
     <div class="container">
         <div class="header">
             <h1>🌍 Lynxeo ESG Carbon Footprint Dashboard</h1>
-            <p class="subtitle">Comprehensive Carbon Emissions Analysis & Decarbonization Strategy</p>
+            <p class="subtitle">Interactive Carbon Emissions Analysis & Scenario Planning</p>
             <div class="company-info">
                 <div class="info-item">
                     <span class="label">Revenue:</span>
@@ -411,142 +334,120 @@
             </div>
         </div>
 
-        <div class="scenario-controls">
-            <h2>🎛️ Scenario Builder - Explore Decarbonization Pathways</h2>
-            <p class="controls-subtitle">Adjust parameters to simulate different emission reduction scenarios</p>
-            
+        <div class="controls-panel">
+            <h2>⚙️ Scenario Planning Controls</h2>
             <div class="controls-grid">
                 <div class="control-group">
-                    <label for="renewableSlider">
-                        <span class="control-label">Renewable Energy Adoption</span>
-                        <span class="control-value" id="renewableValue">15%</span>
-                    </label>
-                    <input type="range" id="renewableSlider" min="0" max="100" value="15" class="slider">
-                    <div class="slider-labels">
-                        <span>0%</span>
-                        <span>50%</span>
-                        <span>100%</span>
+                    <label for="targetYear">Target Year</label>
+                    <select id="targetYear">
+                        <option value="2030">2030</option>
+                        <option value="2035">2035</option>
+                        <option value="2040">2040</option>
+                        <option value="2050" selected>2050</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="renewableEnergy">Renewable Energy Adoption (%)</label>
+                    <input type="range" id="renewableEnergy" min="0" max="100" value="50" step="5">
+                    <div class="slider-value">
+                        <span>Current: 15%</span>
+                        <span class="current" id="renewableValue">50%</span>
+                        <span>Target: 100%</span>
                     </div>
                 </div>
 
                 <div class="control-group">
-                    <label for="electrificationSlider">
-                        <span class="control-label">Process Electrification</span>
-                        <span class="control-value" id="electrificationValue">20%</span>
-                    </label>
-                    <input type="range" id="electrificationSlider" min="0" max="100" value="20" class="slider">
-                    <div class="slider-labels">
-                        <span>0%</span>
-                        <span>50%</span>
-                        <span>100%</span>
+                    <label for="circularMaterials">Recycled Material Content (%)</label>
+                    <input type="range" id="circularMaterials" min="15" max="60" value="30" step="5">
+                    <div class="slider-value">
+                        <span>Current: 15%</span>
+                        <span class="current" id="circularValue">30%</span>
+                        <span>Target: 60%</span>
                     </div>
                 </div>
 
                 <div class="control-group">
-                    <label for="circularitySlider">
-                        <span class="control-label">Recycled Material Content</span>
-                        <span class="control-value" id="circularityValue">15%</span>
-                    </label>
-                    <input type="range" id="circularitySlider" min="0" max="60" value="15" class="slider">
-                    <div class="slider-labels">
-                        <span>0%</span>
-                        <span>30%</span>
-                        <span>60%</span>
+                    <label for="supplierEngagement">Supplier Decarbonization (%)</label>
+                    <input type="range" id="supplierEngagement" min="0" max="100" value="40" step="10">
+                    <div class="slider-value">
+                        <span>Baseline: 0%</span>
+                        <span class="current" id="supplierValue">40%</span>
+                        <span>Full: 100%</span>
                     </div>
                 </div>
 
                 <div class="control-group">
-                    <label for="supplierSlider">
-                        <span class="control-label">Supplier Engagement (%)</span>
-                        <span class="control-value" id="supplierValue">10%</span>
-                    </label>
-                    <input type="range" id="supplierSlider" min="0" max="100" value="10" class="slider">
-                    <div class="slider-labels">
-                        <span>0%</span>
-                        <span>50%</span>
-                        <span>100%</span>
+                    <label for="electrification">Process Electrification (%)</label>
+                    <input type="range" id="electrification" min="0" max="100" value="50" step="10">
+                    <div class="slider-value">
+                        <span>Current: 20%</span>
+                        <span class="current" id="electrificationValue">50%</span>
+                        <span>Target: 100%</span>
                     </div>
                 </div>
-            </div>
 
-            <div class="preset-scenarios">
-                <button class="preset-btn" onclick="applyPreset('baseline')">📊 Current Baseline</button>
-                <button class="preset-btn" onclick="applyPreset('conservative')">🎯 Conservative (2030)</button>
-                <button class="preset-btn" onclick="applyPreset('ambitious')">🚀 Ambitious (2030)</button>
-                <button class="preset-btn" onclick="applyPreset('netzero')">🌱 Net Zero (2050)</button>
-            </div>
-
-            <div class="impact-summary">
-                <div class="impact-item">
-                    <span class="impact-label">Projected Total Emissions:</span>
-                    <span class="impact-value" id="projectedEmissions">156,400 tCO₂e</span>
-                </div>
-                <div class="impact-item">
-                    <span class="impact-label">Total Reduction:</span>
-                    <span class="impact-value reduction" id="totalReduction">0 tCO₂e (0%)</span>
+                <div class="control-group">
+                    <label for="fleetTransition">Fleet Electrification (%)</label>
+                    <input type="range" id="fleetTransition" min="0" max="100" value="60" step="10">
+                    <div class="slider-value">
+                        <span>Current: 5%</span>
+                        <span class="current" id="fleetValue">60%</span>
+                        <span>Target: 100%</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="metrics-grid">
             <div class="metric-card">
-                <div class="metric-title">Total GHG Emissions</div>
+                <div class="metric-title">Current Total Emissions</div>
                 <div class="metric-value">156,400</div>
                 <div class="metric-unit">tCO₂e / year</div>
                 <div class="metric-trend trend-positive">↓ 8.2% vs 2023</div>
             </div>
 
             <div class="metric-card">
-                <div class="metric-title">Carbon Intensity</div>
-                <div class="metric-value">195.5</div>
+                <div class="metric-title">Projected Emissions</div>
+                <div class="metric-value" id="projectedEmissions">89,200</div>
+                <div class="metric-unit">tCO₂e / year</div>
+                <div class="metric-trend trend-positive" id="projectedReduction">↓ 43% reduction</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">Carbon Intensity (Projected)</div>
+                <div class="metric-value" id="projectedIntensity">111.5</div>
                 <div class="metric-unit">tCO₂e / €M revenue</div>
-                <div class="metric-trend trend-positive">↓ 6.1% vs 2023</div>
+                <div class="metric-trend trend-positive" id="intensityReduction">↓ 43% vs baseline</div>
             </div>
 
             <div class="metric-card">
-                <div class="metric-title">Emissions per Employee</div>
-                <div class="metric-value">62.6</div>
-                <div class="metric-unit">tCO₂e / FTE</div>
-                <div class="metric-trend trend-positive">↓ 7.8% vs 2023</div>
-            </div>
-
-            <div class="metric-card">
-                <div class="metric-title">2030 Target Progress</div>
-                <div class="metric-value">32%</div>
-                <div class="metric-unit">toward -42% reduction</div>
-                <div class="metric-trend trend-positive">On Track (SBTi aligned)</div>
+                <div class="metric-title">Target Alignment</div>
+                <div class="metric-value" id="targetAlignment">98%</div>
+                <div class="metric-unit">SBTi 1.5°C pathway</div>
+                <div class="metric-trend trend-positive" id="alignmentStatus">On Track</div>
             </div>
         </div>
 
         <div class="charts-grid">
             <div class="chart-card">
-                <h2>📊 Emissions by Scope</h2>
+                <h2>📊 Emissions by Scope (Current)</h2>
                 <canvas id="scopeChart"></canvas>
             </div>
 
             <div class="chart-card">
-                <h2>📈 Emission Trends (2020-2024)</h2>
-                <canvas id="trendChart"></canvas>
+                <h2>🎯 Emission Reduction by Initiative</h2>
+                <canvas id="reductionChart"></canvas>
             </div>
 
             <div class="chart-card full-width">
-                <h2>🎯 Decarbonization Pathway to 2050</h2>
+                <h2>📈 Decarbonization Pathway - Your Scenario</h2>
                 <canvas id="pathwayChart"></canvas>
             </div>
 
-            <div class="chart-card">
-                <h2>🏭 Scope 1 Breakdown</h2>
-                <canvas id="scope1Chart"></canvas>
-            </div>
-
-            <div class="chart-card">
-                <h2>⚡ Scope 2 - Energy Sources</h2>
-                <canvas id="scope2Chart"></canvas>
-            </div>
-
             <div class="chart-card full-width">
-                <h2>🔗 Scope 3 Value Chain Emissions</h2>
-                <canvas id="scope3Chart"></canvas>
+                <h2>⚡ Energy Mix Transition</h2>
+                <canvas id="energyMixChart"></canvas>
             </div>
         </div>
 
@@ -598,431 +499,311 @@
             scope3: '#667eea'
         };
 
-        // Baseline emissions data
-        const baseline = {
+        // Baseline emissions
+        const baselineEmissions = {
             scope1: 31800,
             scope2: 28200,
             scope3: 96400,
             total: 156400
         };
 
-        // Store chart instances
-        let charts = {};
-
-        // Initialize scenario controls
-        function initControls() {
-            const sliders = {
-                renewable: document.getElementById('renewableSlider'),
-                electrification: document.getElementById('electrificationSlider'),
-                circularity: document.getElementById('circularitySlider'),
-                supplier: document.getElementById('supplierSlider')
-            };
-
-            Object.keys(sliders).forEach(key => {
-                sliders[key].addEventListener('input', function() {
-                    updateScenario();
-                });
-            });
-
-            updateScenario();
-        }
-
-        // Apply preset scenarios
-        function applyPreset(preset) {
-            const presets = {
-                baseline: { renewable: 15, electrification: 20, circularity: 15, supplier: 10 },
-                conservative: { renewable: 40, electrification: 35, circularity: 25, supplier: 30 },
-                ambitious: { renewable: 75, electrification: 60, circularity: 40, supplier: 60 },
-                netzero: { renewable: 100, electrification: 90, circularity: 55, supplier: 85 }
-            };
-
-            const values = presets[preset];
-            document.getElementById('renewableSlider').value = values.renewable;
-            document.getElementById('electrificationSlider').value = values.electrification;
-            document.getElementById('circularitySlider').value = values.circularity;
-            document.getElementById('supplierSlider').value = values.supplier;
-
-            updateScenario();
-        }
-
-        // Calculate emissions based on scenario
-        function calculateScenario() {
-            const renewable = parseInt(document.getElementById('renewableSlider').value);
-            const electrification = parseInt(document.getElementById('electrificationSlider').value);
-            const circularity = parseInt(document.getElementById('circularitySlider').value);
-            const supplier = parseInt(document.getElementById('supplierSlider').value);
-
-            // Update display values
-            document.getElementById('renewableValue').textContent = renewable + '%';
-            document.getElementById('electrificationValue').textContent = electrification + '%';
-            document.getElementById('circularityValue').textContent = circularity + '%';
-            document.getElementById('supplierValue').textContent = supplier + '%';
-
-            // Calculate reductions
-            const scope2Reduction = baseline.scope2 * (renewable / 100) * 0.95; // 95% reduction from renewables
-            const scope1Reduction = baseline.scope1 * (electrification / 100) * 0.60; // 60% of scope 1 can be electrified
-            const scope3MaterialReduction = (baseline.scope3 * 0.58) * (circularity / 100) * 0.40; // Materials are 58% of scope 3
-            const scope3SupplierReduction = (baseline.scope3 * 0.58) * (supplier / 100) * 0.35; // Supplier engagement
-
-            const newScope1 = baseline.scope1 - scope1Reduction;
-            const newScope2 = baseline.scope2 - scope2Reduction;
-            const newScope3 = baseline.scope3 - scope3MaterialReduction - scope3SupplierReduction;
-            const newTotal = newScope1 + newScope2 + newScope3;
-            const totalReduction = baseline.total - newTotal;
-            const reductionPercent = (totalReduction / baseline.total * 100).toFixed(1);
-
-            // Update summary
-            document.getElementById('projectedEmissions').textContent = 
-                newTotal.toLocaleString('en-US', { maximumFractionDigits: 0 }) + ' tCO₂e';
-            document.getElementById('totalReduction').textContent = 
-                totalReduction.toLocaleString('en-US', { maximumFractionDigits: 0 }) + 
-                ` tCO₂e (${reductionPercent}%)`;
-
-            return {
-                scope1: Math.round(newScope1),
-                scope2: Math.round(newScope2),
-                scope3: Math.round(newScope3),
-                total: Math.round(newTotal),
-                reduction: Math.round(totalReduction),
-                reductionPercent: parseFloat(reductionPercent)
-            };
-        }
-
-        // Update all charts with new scenario
-        function updateScenario() {
-            const scenario = calculateScenario();
-            
-            // Update scope chart
-            charts.scope.data.datasets[0].data = [scenario.scope1, scenario.scope2, scenario.scope3];
-            charts.scope.update();
-
-            // Update pathway chart with new projection
-            const currentYear = 2024;
-            const targetYear = 2030;
-            const yearsToTarget = targetYear - currentYear;
-            const annualReduction = (baseline.total - scenario.total) / yearsToTarget;
-            
-            const lynxeoProjection = [
-                baseline.total,
-                baseline.total - annualReduction,
-                baseline.total - annualReduction * 2,
-                scenario.total,
-                scenario.total * 0.72,
-                scenario.total * 0.48,
-                scenario.total * 0.29,
-                scenario.total * 0.18
-            ];
-
-            charts.pathway.data.datasets[2].data = lynxeoProjection;
-            charts.pathway.update();
-
-            // Update metric cards
-            document.querySelector('.metric-card:nth-child(1) .metric-value').textContent = 
-                scenario.total.toLocaleString('en-US');
-            document.querySelector('.metric-card:nth-child(2) .metric-value').textContent = 
-                (scenario.total / 800).toFixed(1);
-            document.querySelector('.metric-card:nth-child(3) .metric-value').textContent = 
-                (scenario.total / 2500).toFixed(1);
-            
-            const progressPercent = Math.min(100, (scenario.reductionPercent / 42 * 100).toFixed(0));
-            document.querySelector('.metric-card:nth-child(4) .metric-value').textContent = progressPercent + '%';
-            
-            const trendElement = document.querySelector('.metric-card:nth-child(1) .metric-trend');
-            if (scenario.reduction > 0) {
-                trendElement.className = 'metric-trend trend-positive';
-                trendElement.textContent = `↓ ${scenario.reductionPercent}% vs baseline`;
-            } else {
-                trendElement.className = 'metric-trend trend-negative';
-                trendElement.textContent = 'Baseline scenario';
-            }
-        }
+        // Chart instances
+        let scopeChart, reductionChart, pathwayChart, energyMixChart;
 
         // Initialize all charts
         function initCharts() {
             // Scope Distribution Chart
             const scopeCtx = document.getElementById('scopeChart').getContext('2d');
-            charts.scope = new Chart(scopeCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Scope 1 (Direct)', 'Scope 2 (Electricity)', 'Scope 3 (Value Chain)'],
-                datasets: [{
-                    data: [31800, 28200, 96400],
-                    backgroundColor: [colors.scope1, colors.scope2, colors.scope3],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            padding: 20,
-                            font: { size: 12 }
+            scopeChart = new Chart(scopeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Scope 1 (Direct)', 'Scope 2 (Electricity)', 'Scope 3 (Value Chain)'],
+                    datasets: [{
+                        data: [31800, 28200, 96400],
+                        backgroundColor: [colors.scope1, colors.scope2, colors.scope3],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: { size: 12 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed.toLocaleString();
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                    return `${label}: ${value} tCO₂e (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Reduction Chart
+            const reductionCtx = document.getElementById('reductionChart').getContext('2d');
+            reductionChart = new Chart(reductionCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Renewable Energy', 'Supplier Program', 'Electrification', 'Circular Materials', 'Fleet Transition'],
+                    datasets: [{
+                        label: 'Emission Reduction (tCO₂e)',
+                        data: [14100, 14600, 6400, 5580, 5040],
+                        backgroundColor: [colors.success, colors.primary, colors.warning, colors.secondary, colors.scope2]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.parsed.x.toLocaleString()} tCO₂e`;
+                                }
+                            }
                         }
                     },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const label = context.label || '';
-                                const value = context.parsed.toLocaleString();
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = ((context.parsed / total) * 100).toFixed(1);
-                                return `${label}: ${value} tCO₂e (${percentage}%)`;
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return (value / 1000).toFixed(0) + 'k';
+                                }
                             }
                         }
                     }
                 }
-            }
-        });
-
-        // Trend Chart
-        const trendCtx = document.getElementById('trendChart').getContext('2d');
-        new Chart(trendCtx, {
-            type: 'line',
-            data: {
-                labels: ['2020', '2021', '2022', '2023', '2024'],
-                datasets: [{
-                    label: 'Total Emissions',
-                    data: [182500, 178200, 172800, 170400, 156400],
-                    borderColor: colors.primary,
-                    backgroundColor: colors.primary + '20',
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 5,
-                    pointHoverRadius: 7
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return `${context.parsed.y.toLocaleString()} tCO₂e`;
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        ticks: {
-                            callback: function(value) {
-                                return (value / 1000).toFixed(0) + 'k';
-                            }
-                        }
-                    }
-                }
-            }
-                    });
+            });
 
             // Pathway Chart
             const pathwayCtx = document.getElementById('pathwayChart').getContext('2d');
-            charts.pathway = new Chart(pathwayCtx, {
-            type: 'line',
-            data: {
-                labels: ['2024', '2026', '2028', '2030', '2035', '2040', '2045', '2050'],
-                datasets: [{
-                    label: 'Business as Usual',
-                    data: [156400, 158200, 160100, 162000, 165000, 168000, 170000, 172000],
-                    borderColor: colors.danger,
-                    borderDash: [5, 5],
-                    fill: false,
-                    tension: 0.4
-                }, {
-                    label: 'SBTi 1.5°C Pathway',
-                    data: [156400, 135600, 115800, 90700, 62500, 39200, 23500, 15600],
-                    borderColor: colors.success,
-                    backgroundColor: colors.success + '20',
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 5
-                }, {
-                    label: 'Lynxeo Target',
-                    data: [156400, 132400, 112200, 90700, 65800, 43400, 27100, 18800],
-                    borderColor: colors.primary,
-                    backgroundColor: colors.primary + '15',
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                interaction: {
-                    intersect: false,
-                    mode: 'index'
+            pathwayChart = new Chart(pathwayCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2024', '2026', '2028', '2030', '2035', '2040', '2045', '2050'],
+                    datasets: [{
+                        label: 'Business as Usual',
+                        data: [156400, 158200, 160100, 162000, 165000, 168000, 170000, 172000],
+                        borderColor: colors.danger,
+                        borderDash: [5, 5],
+                        fill: false,
+                        tension: 0.4
+                    }, {
+                        label: 'SBTi 1.5°C Pathway',
+                        data: [156400, 135600, 115800, 90700, 62500, 39200, 23500, 15600],
+                        borderColor: colors.success,
+                        backgroundColor: colors.success + '20',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 5
+                    }, {
+                        label: 'Your Scenario',
+                        data: [156400, 132400, 112200, 90700, 65800, 43400, 27100, 18800],
+                        borderColor: colors.primary,
+                        backgroundColor: colors.primary + '15',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointBackgroundColor: colors.primary,
+                        borderWidth: 3
+                    }]
                 },
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: { padding: 20 }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
                     },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return `${context.dataset.label}: ${context.parsed.y.toLocaleString()} tCO₂e`;
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { padding: 20 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y.toLocaleString()} tCO₂e`;
+                                }
                             }
                         }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return (value / 1000).toFixed(0) + 'k';
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return (value / 1000).toFixed(0) + 'k';
+                                }
                             }
                         }
                     }
                 }
-            }
-        });
+            });
 
-        // Scope 1 Breakdown
-        const scope1Ctx = document.getElementById('scope1Chart').getContext('2d');
-        new Chart(scope1Ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Natural Gas', 'Diesel (Fleet)', 'Process Emissions', 'Refrigerants'],
-                datasets: [{
-                    label: 'tCO₂e',
-                    data: [18900, 8200, 3800, 900],
-                    backgroundColor: [
-                        colors.scope1,
-                        colors.scope1 + 'CC',
-                        colors.scope1 + '99',
-                        colors.scope1 + '66'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: { display: false }
+            // Energy Mix Chart
+            const energyMixCtx = document.getElementById('energyMixChart').getContext('2d');
+            energyMixChart = new Chart(energyMixCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['2024 Current', '2030', '2040', '2050 Target'],
+                    datasets: [{
+                        label: 'Fossil Fuels',
+                        data: [85, 60, 25, 5],
+                        backgroundColor: colors.danger
+                    }, {
+                        label: 'Renewable Energy',
+                        data: [15, 40, 75, 95],
+                        backgroundColor: colors.success
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return (value / 1000).toFixed(1) + 'k';
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { padding: 20 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { stacked: true },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
                             }
                         }
                     }
                 }
-            }
-        });
-
-        // Scope 2 Chart
-        const scope2Ctx = document.getElementById('scope2Chart').getContext('2d');
-        new Chart(scope2Ctx, {
-            type: 'pie',
-            data: {
-                labels: ['Grid Electricity (Standard)', 'Renewable Energy', 'Steam Purchase'],
-                datasets: [{
-                    data: [21500, 4200, 2500],
-                    backgroundColor: [
-                        colors.scope2,
-                        colors.success,
-                        colors.scope2 + '99'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { padding: 15 }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const value = context.parsed.toLocaleString();
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = ((context.parsed / total) * 100).toFixed(1);
-                                return `${context.label}: ${value} tCO₂e (${percentage}%)`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // Scope 3 Chart
-        const scope3Ctx = document.getElementById('scope3Chart').getContext('2d');
-        new Chart(scope3Ctx, {
-            type: 'bar',
-            data: {
-                labels: [
-                    'Purchased Goods\n(Materials)',
-                    'Upstream\nTransportation',
-                    'Waste',
-                    'Business\nTravel',
-                    'Employee\nCommuting',
-                    'Downstream\nTransportation',
-                    'Use of Sold\nProducts',
-                    'End of Life'
-                ],
-                datasets: [{
-                    label: 'Upstream',
-                    data: [56200, 12800, 2100, 1800, 3200, 0, 0, 0],
-                    backgroundColor: colors.scope3
-                }, {
-                    label: 'Downstream',
-                    data: [0, 0, 0, 0, 0, 8600, 9400, 2300],
-                    backgroundColor: colors.secondary
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: { padding: 20 }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return `${context.dataset.label}: ${context.parsed.y.toLocaleString()} tCO₂e`;
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        stacked: true,
-                        ticks: {
-                            font: { size: 10 }
-                        }
-                    },
-                    y: {
-                        stacked: true,
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return (value / 1000).toFixed(0) + 'k';
-                            }
-                        }
-                    }
-                }
-            }
-        });
+            });
         }
 
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        // Calculate scenario emissions
+        function calculateScenario() {
+            const renewable = parseInt(document.getElementById('renewableEnergy').value);
+            const circular = parseInt(document.getElementById('circularMaterials').value);
+            const supplier = parseInt(document.getElementById('supplierEngagement').value);
+            const electrification = parseInt(document.getElementById('electrification').value);
+            const fleet = parseInt(document.getElementById('fleetTransition').value);
+            const targetYear = parseInt(document.getElementById('targetYear').value);
+
+            // Calculate reductions
+            const renewableReduction = (28200 * renewable / 100);
+            const circularReduction = (56200 * (circular - 15) / 45 * 0.35);
+            const supplierReduction = (36500 * supplier / 100);
+            const electrificationReduction = (18900 * (electrification - 20) / 80 * 0.7);
+            const fleetReduction = (8200 * (fleet - 5) / 95);
+
+            const totalReduction = renewableReduction + circularReduction + supplierReduction + 
+                                   electrificationReduction + fleetReduction;
+            const projectedEmissions = Math.round(baselineEmissions.total - totalReduction);
+            const reductionPercent = Math.round((totalReduction / baselineEmissions.total) * 100);
+
+            // Calculate year-specific targets
+            const yearsSince2024 = targetYear - 2024;
+            const sbtiTarget = targetYear === 2030 ? 90700 : 
+                              targetYear === 2035 ? 62500 :
+                              targetYear === 2040 ? 39200 : 15600;
+            
+            const alignment = Math.round((1 - Math.abs(projectedEmissions - sbtiTarget) / sbtiTarget) * 100);
+
+            // Update metrics
+            document.getElementById('projectedEmissions').textContent = projectedEmissions.toLocaleString();
+            document.getElementById('projectedReduction').textContent = `↓ ${reductionPercent}% reduction`;
+            document.getElementById('projectedIntensity').textContent = Math.round(projectedEmissions / 800 * 10) / 10;
+            document.getElementById('intensityReduction').textContent = `↓ ${reductionPercent}% vs baseline`;
+            document.getElementById('targetAlignment').textContent = Math.max(0, alignment) + '%';
+            document.getElementById('alignmentStatus').textContent = alignment > 90 ? 'On Track' : alignment > 70 ? 'Close' : 'Gap Exists';
+            document.getElementById('alignmentStatus').className = alignment > 90 ? 'metric-trend trend-positive' : 'metric-trend trend-negative';
+
+            // Update reduction chart
+            reductionChart.data.datasets[0].data = [
+                Math.round(renewableReduction),
+                Math.round(supplierReduction),
+                Math.round(electrificationReduction),
+                Math.round(circularReduction),
+                Math.round(fleetReduction)
+            ];
+            reductionChart.update();
+
+            // Update pathway chart
+            const baseYear = 156400;
+            const reductionRate = totalReduction / yearsSince2024;
+            const pathwayData = [156400];
+            
+            for (let year = 2026; year <= 2050; year += (year < 2030 ? 2 : 5)) {
+                const yearIndex = year - 2024;
+                const reduction = Math.min(totalReduction, reductionRate * yearIndex);
+                pathwayData.push(Math.round(baseYear - reduction));
+            }
+
+            pathwayChart.data.datasets[2].data = pathwayData;
+            pathwayChart.update();
+
+            // Update energy mix chart
+            energyMixChart.data.datasets[0].data = [85, 100 - renewable * 0.8, 100 - renewable * 1.5, 5];
+            energyMixChart.data.datasets[1].data = [15, renewable * 0.8, renewable * 1.5, 95];
+            energyMixChart.update();
+        }
+
+        // Event listeners for controls
+        document.getElementById('renewableEnergy').addEventListener('input', function(e) {
+            document.getElementById('renewableValue').textContent = e.target.value + '%';
+            calculateScenario();
+        });
+
+        document.getElementById('circularMaterials').addEventListener('input', function(e) {
+            document.getElementById('circularValue').textContent = e.target.value + '%';
+            calculateScenario();
+        });
+
+        document.getElementById('supplierEngagement').addEventListener('input', function(e) {
+            document.getElementById('supplierValue').textContent = e.target.value + '%';
+            calculateScenario();
+        });
+
+        document.getElementById('electrification').addEventListener('input', function(e) {
+            document.getElementById('electrificationValue').textContent = e.target.value + '%';
+            calculateScenario();
+        });
+
+        document.getElementById('fleetTransition').addEventListener('input', function(e) {
+            document.getElementById('fleetValue').textContent = e.target.value + '%';
+            calculateScenario();
+        });
+
+        document.getElementById('targetYear').addEventListener('change', calculateScenario);
+
+        // Initialize on load
+        window.addEventListener('load', function() {
             initCharts();
-            initControls();
+            calculateScenario();
         });
     </script>
 </body>
